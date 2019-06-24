@@ -101,16 +101,13 @@
 
     $('.select').change(function() {//.selectのvalueが変化した時のfunction()
       var type = $(this).val();//typeに.selectのvalueを代入
-      if (type === 'all') {//typeが'all'のとき
-        $('.list').children('li').each(function() {//.listの小要素liのそれぞれに対して
-          $(this).show();//表示させるメソッドを実行
-        });
+        $('.list').find('li').hide();
+      if (type === 'all') {//typeが'all'のとき ===は型も一致
+        $('.list').find('li').show();//表示させるメソッドを実行
       }else{//typeが'all'以外の時
         $('.list').children('li').each(function() {//.listの小要素liのそれぞれに対して
           if (type === $(this).data('category-type')) {//'data-category-type'がtypeに等しい場合
             $(this).show();//表示させるメソッドを実行
-          }else{
-            $(this).hide();//非表示させるメソッドを実行
           }
         });
       }

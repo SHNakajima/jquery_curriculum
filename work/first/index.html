@@ -76,7 +76,7 @@
     $('#q1').css('color', 'red');//id='q1'にcolor: red; のスタイルを適応
 
     // 第2問  id='q2'の要素をクリックしたら背景色をピンクにせよ。
-    $('#q2').click(function () { //id='q1'クリックしたときのfunction ()
+    $('#q2').click(function(){ //id='q1'クリックしたときのfunction ()
     $(this).css('background-color', 'pink');//現在のDOM(id='q1')にbackground-color:pink;を適応
   });
 
@@ -112,7 +112,7 @@
   // 第7問  id='q7'の子要素をクリックしたら、その要素のインデックス（何番目か）をconsole.log()とalert()を用いて表示させよ。
   $('#q7').find('li').click(function () {
     //id='q7'の要素の小要素'li'をクリックしたらクリックした'li'に対してfunctionを実行
-    var indexNum = $(this).index();//クリックした要素のindex(位置番号)を取得し、indexNumに代入
+    var indexNum = $(this).index();//クリックした要素のindex(兄弟要素の位置番号)を取得し、indexNumに代入
     console.log(indexNum);//indexNumをコンソール出力
     alert(indexNum);//スペルミス注意！, indexNumをアラート
   });
@@ -136,8 +136,6 @@
     var childnum = $(this).index();//childnumに要素番号を代入して
     $('#q11').find('li').eq(childnum).addClass('large');//q11のchildnum+1番目の要素にクラスlargeを追加
   });
-
-
 })
 </script>
 </body>

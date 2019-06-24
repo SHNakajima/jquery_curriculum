@@ -29,7 +29,7 @@
       // navの小要素であるliをクリックして、contents内の小要素であるli要素を表示させる。
       $('.nav').find('li').click(function() {//navの小要素liのクリックアクションでfunction()実行
         var indexNum = $(this).index();//indexNumにliの位置番号を代入
-        $('.contents').find('li').eq(indexNum).siblings().addClass('is-hidden');//contents内のliのindexNum-1番目以外にis-hiddenクラスを追加
+        $('.contents').find('li').addClass('is-hidden');//contents内のliのindexNum-1番目以外にis-hiddenクラスを追加
         $('.contents').find('li').eq(indexNum).removeClass('is-hidden');//contents内のliのindexNum-1番目のis-hiddenクラスを削除
       });
       // .index() 要素のindexを取得します。

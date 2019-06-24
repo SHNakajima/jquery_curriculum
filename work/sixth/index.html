@@ -21,12 +21,22 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+    $(function() {
       // 今回やるのは文字数チェッカーです。
       // .input に文字を入力し、文字を入力した段階でその文字数に応じて .rest-count の値が減っていき、最大文字数である30文字以上入力すると .rest-count に .red クラスが追加されて文字色が赤くなり、30文字以内になると、.red クラスが外れ、文字色が元に戻る。（ちなみに改行は文字数に含まない。）
       // .keyup() 文字入力後に発火されるイベントです。
       // .replace(/\s+/g,'').length 改行を含まない文字数を取得します。
       // .val() input要素のvalueを取得します。
+
+      $('.input').keyup( function() {//文字を入力した時
+        var letternum = $(this).val().replace(/\s+/g, '').length;//inputの値の文字数取得
+        $('.rest-count').text(30-letternum);//カウント文字数更新
+        if (30-letternum < 0) {//カウント文字数がの値がマイナスになった時
+          $('.rest-count').css('color', 'red');//赤文字に
+        }
+      });
+
+    })
     </script>
   </body>
 </html>
-
