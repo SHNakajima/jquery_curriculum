@@ -32,7 +32,9 @@
         var letternum = $(this).val().replace(/\s+/g, '').length;//inputの値の文字数取得
         $('.rest-count').text(30-letternum);//カウント文字数更新
         if (30-letternum < 0) {//カウント文字数がの値がマイナスになった時
-          $('.rest-count').css('color', 'red');//赤文字に
+          $('.rest-count').addClass('red');//赤文字に
+        }else{
+          $('.rest-count').removeClass('red');//黒文字に
         }
       });
 
