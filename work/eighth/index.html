@@ -45,8 +45,8 @@
     // .fadeOut() 要素をフェードアウトさせる。
 
     $(window).scroll(function() {//スクロールした時のアクション
-      var scrolllength = $(window).scrollTop();
-      if( scrolllength >= 100) {
+      var scrollLength = $(window).scrollTop();
+      if( scrollLength >= 100) {
         $('.scrollTopBtn').fadeIn();//100ピクセル以上スクロールしたら.scrollTopBtnをフェードイン
       } else {$('.scrollTopBtn').fadeOut();}//それ以外は.scrollTopBtnをフェードアウト
     });
