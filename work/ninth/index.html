@@ -15,18 +15,19 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+    $(function() {
       // [使うメソッド]
       // $.each(配列, function functionName() {}) 配列に対しての繰り返し処理
       // .html() 要素の中に引数を代入する。（まずは.append() でやってみましょう）
       // $.ajax({}) 外部ファイルやURLに対してデータをリクエストすることができます。これだけだと少しわからないと思うので下に文法を書いておきます。
       //
       // [文法]
-      // $.ajax({
-      //   url: './data.json'
-      // })
-      // .done(function(data) {
-      //   console.log(data);
-      // });
+        $.ajax({
+          url: './data.json'
+        })
+        .done(function(data) {
+          console.log(data);
+        });
       //
       // 今回の場合は同じ階層にあるdata.jsonに対してリクエストを飛ばして、中にあるオブジェクトを取得します。
       // そのオブジェクトは
@@ -42,6 +43,8 @@
       // </li>
       //
       // このテンプレートに取得してきた中身を入れて表示します。
+
+    })
     </script>
   </body>
 </html>

@@ -45,21 +45,27 @@
     // .fadeOut() 要素をフェードアウトさせる。
 
     $(window).scroll(function() {//スクロールした時のアクション
-      if($(window).scrollTop() >= 100)$('.scrollTopBtn').fadeIn();//100ピクセル以上スクロールしたら.scrollTopBtnをフェードイン
-      else $('.scrollTopBtn').fadeOut();//それ以外は.scrollTopBtnをフェードアウト
-    })
+      var scrolllength = $(window).scrollTop();
+      if( scrolllength >= 100){$('.scrollTopBtn').fadeIn();}//100ピクセル以上スクロールしたら.scrollTopBtnをフェードイン
+      else {$('.scrollTopBtn').fadeOut();}//それ以外は.scrollTopBtnをフェードアウト
+    });
 
     $('.menu__btn').click(function() {//.menu__btnをクリックしたら時のアクション
-      var clickeddata = $(this).data('scroll-place-type');//クリックしたボタンのデータ属性'scroll-place-type'の値をclickdataに代入
+      var clickedData = $(this).data('scroll-place-type');//クリックしたボタンのデータ属性'scroll-place-type'の値をclickdataに代入
       $('.contents').find('.title').each(function() {//.contentsの小要素.titleのそれぞれにたいして
-        if (clickeddata === $(this).data('scroll-place-type')){//クリックしたボタンと.titleのデータ属性'scroll-place-type'が等しい場合
+        var titledata = $(this).data('scroll-place-type');
+        if (clickedData === titledata){//クリックしたボタンと.titleのデータ属性'scroll-place-type'が等しい場合
           $('html, body').animate({scrollTop: $(this).offset().top});//そのtitle要素の位置までスクロール
           return;
         }
       });
     });
 
-  })
+    $('.scrollTopBtn').click(function() {//スクロールトップボタン押下時の動き
+      $('html, body').animate({scrollTop: 0});//ページの一番上までスクロール
+    });
+
+  });
   </script>
 </body>
 </html>
