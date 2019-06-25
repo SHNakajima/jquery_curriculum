@@ -1,73 +1,155 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <title>jQuery</title>
-    <link rel="stylesheet" href="../../common/css/reset.css">
-    <link rel="stylesheet" href="../../common/css/base.css">
-    <link rel="stylesheet" href="./css/style.css">
-  </head>
-  <body>
-    <div class="wrap">
-      <div class="container">
-        <div class="header">
-          <p class="header__title">Search Books!</p>
-        </div>
-        <div class="search">
-          <div class="search__text">
-            <input type="text" id="js-search-word" class="search__text__input" placeholder="検索する">
-          </div>
-          <button id="js-search-button" class="search__btn">検索する</button>
-        </div>
-        <ul class="lists"></ul>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>jQuery</title>
+  <link rel="stylesheet" href="../../common/css/reset.css">
+  <link rel="stylesheet" href="../../common/css/base.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="container">
+      <div class="header">
+        <p class="header__title">Search Books!</p>
       </div>
+      <div class="search">
+        <div class="search__text">
+          <input type="text" id="js-search-word" class="search__text__input" placeholder="検索する">
+        </div>
+        <button id="js-search-button" class="search__btn">検索する</button>
+      </div>
+      <ul class="lists"></ul>
     </div>
-    <script src="../../common/js/jquery.js"></script>
-    <script>
-      // 楽天ブックスの総合検索APIを使って製作してください。
-      // answerの挙動を良く見てね！
-      //
-      // 下記URLにAPIの仕様が載ってるいので、ブラウザで開いて参考にしてください。
-      // https://webservice.rakuten.co.jp/api/bookstotalsearch/
-      //
-      //
-      // [使うメソッド]
-      // $.each(配列, function functionName() {}) 配列に対しての繰り返し処理
-      // $.ajax({}) 外部ファイルやURLに対してデータをリクエストすることができます。
-      // 以下は今回使う$.ajaxの基本的な形です。
-      //
-      // $.ajax({
-      //   url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
-      //   type: 'GET',
-      //   datatype: 'json',
-      //   data: {
-      //     // 「区分:サービス固有パラメーター」を確認して、必要な情報をdata内に入れましょう。
-      //     applicationId: '1019399324990976605', // (今回はこのIDを使用してください)
-      //     booksGenreId: '001'
-      //   },
-      // }).done(function(data) {
-      //   // この中にデータ取得後の動きを記述していきます。
-      //   console.log(data);
-      // });
-      //
-      //
-      // $.ajaxによってデータが取得できたら、必要なデータ(作品名とか作者名とか)を取得します。
-      // 取得できたらHTMLに<ul class='lists'></ul>を用意しているので、その中に下のテンプレに沿ってデータを入れ込みましょう。
-      // <li class='lists__item'>
-      //  <div class='lists__item__inner'>
-      //    <a href='' class='lists__item__link' target='_blank'>
-      //      <img src='' class='lists__item__img' alt=''>
-      //      <p class='lists__item__detail'>作品名：</p>
-      //      <p class='lists__item__detail'>作者　：</p>
-      //      <p class='lists__item__detail'>出版社：</p>
-      //    </a>
-      //  </div>
-      // </li>
-      //
-      //
-      //
-    </script>
-  </body>
+  </div>
+  <script src="../../common/js/jquery.js"></script>
+  <script>
+  $(function() {
+    // 楽天ブックスの総合検索APIを使って製作してください。
+    // answerの挙動を良く見てね！
+    //
+    // 下記URLにAPIの仕様が載ってるいので、ブラウザで開いて参考にしてください。
+    // https://webservice.rakuten.co.jp/api/bookstotalsearch/
+    //
+    //
+    // [使うメソッド]
+    // $.each(配列, function functionName() {}) 配列に対しての繰り返し処理
+    // $.ajax({}) 外部ファイルやURLに対してデータをリクエストすることができます。
+    // 以下は今回使う$.ajaxの基本的な形です。
+    //
+    // $.ajax({
+    //   url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+    //   type: 'GET',
+    //   datatype: 'json',
+    //   data: {
+    //     // 「区分:サービス固有パラメーター」を確認して、必要な情報をdata内に入れましょう。
+    //     applicationId: '1019399324990976605', // (今回はこのIDを使用してください)
+    //     booksGenreId: '001'
+    //   },
+    // }).done(function(data) {
+    //   // この中にデータ取得後の動きを記述していきます。
+    //   console.log(data);
+    // });
+    //
+    //
+    // $.ajaxによってデータが取得できたら、必要なデータ(作品名とか作者名とか)を取得します。
+    // 取得できたらHTMLに<ul class='lists'></ul>を用意しているので、その中に下のテンプレに沿ってデータを入れ込みましょう。
+    // <li class='lists__item'>
+    //  <div class='lists__item__inner'>
+    //    <a href='' class='lists__item__link' target='_blank'>
+    //      <img src='' class='lists__item__img' alt=''>
+    //      <p class='lists__item__detail'>作品名：</p>
+    //      <p class='lists__item__detail'>作者　：</p>
+    //      <p class='lists__item__detail'>出版社：</p>
+    //    </a>
+    //  </div>
+    // </li>
+    //
+    //
+    //
+
+    var getPageNum = 0;//取得するページ数（枚目）
+    var isThereMessage = false;//検索結果がない時のメッセージが表示されているか表すboolean
+    var prevSearchText;//前回の検索文字列
+
+    $('.search__text__input').keypress(function(event) {//テキスト入力エリアでエンターキーを押下した時
+      if(event.which == 13){searchBooks();}//検索関数の実行
+    });
+
+    $('.search__btn').click(searchBooks);//[検索する]ボタンをクリックした時検索関数の実行
+
+    function searchBooks() {//楽天ブックス総合検索APIを使用した本検索関数
+      var searchText = $('.search__text__input').val();//'.search__text__input'の入力値をsearchtextに取得
+      if (prevSearchText !== searchText) {//検索文字列が変化した時
+        $('.lists').children('li').remove();
+        $('.message').remove();
+        prevSearchText = searchText;
+      }
+      getPageNum++;//取得するページ数の更新
+
+      $.ajax({
+        url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+        type: 'GET',
+        datatype: 'json',
+        data: {
+          // 「区分:サービス固有パラメーター」を確認して、必要な情報をdata内に入れましょう。
+          applicationId: '1019399324990976605', // (今回はこのIDを使用してください)
+          booksGenreId: '001',//楽天ブックスジャンルID?
+          keyword: searchText,//検索文字列
+          hits: '20',//一度の検索結果取得数
+          page: getPageNum//取得するページ数目
+        },
+      }).done(function(data) {//データが読み込み終わったら
+        var books = data.Items;//data.Itemsが本の情報のオブジェクトの配列になっているため、それをbooksに代入
+        var hitNum = data.hits;//検索ヒット数の取得
+        if (hitNum === 0) {//検索ヒット数が0だったら
+          if(isThereMessage){return;}//すでにメッセージが表示されているなら何もしないreturn
+          var $messageDiv = $('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>');//こうもかける！
+          $('.search').after($messageDiv);//検索フォームの後にメッセージを挿入
+          isThereMessage = true;//メッセージ挿入したらtrueにする
+        }
+
+        $.each(books, function(index, el) {//本情報のオブジェクトの配列の要素elそれぞれにたいして
+          var item = el.Item;//data.Items.Itemが本の情報なのでそれをitemに格納
+          // ここから-------------------------------------------------------------------------------------------
+          var $img = $('<img>', {
+            class: 'lists__item__img',
+            src: item.largeImageUrl,
+            alt: ''
+          });
+          var $title = $('<p>', {
+            class: 'lists__item__detail',
+            text: '作品名：　' + item.title
+          });
+          var $author = $('<p>', {
+            class: 'lists__item__detail',
+            text: '作者　：　' + item.author
+          });
+          var $publisher = $('<p>', {
+            class: 'lists__item__detail',
+            text: '出版社：　' + item.publisherName
+          });
+          var $a = $('<a>', {
+            class: 'lists__item__link',
+            target: '_blank',
+            href: item.itemUrl
+          });
+          var $div = $('<div>', {
+            class: 'lists__item__inner',
+          });
+          var $li = $('<li>', {
+            class: 'lists__item',
+          });
+          // ここまでタグ作成。各々タグのtext, srcに本情報からデータ取得している------------------------------------------------------
+          $a.append($img).append($title).append($author).append($publisher);//作成したaタグに本1つの情報を順番に格納
+          $div.append($a).appendTo($li);//aを格納したdivをliに格納
+          $('.lists').prepend($li);//新しく取得した本の情報liを前に追加していく
+        });
+      });
+    };
+  });
+  </script>
+</body>
 </html>

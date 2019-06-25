@@ -46,15 +46,16 @@
 
     $(window).scroll(function() {//スクロールした時のアクション
       var scrolllength = $(window).scrollTop();
-      if( scrolllength >= 100){$('.scrollTopBtn').fadeIn();}//100ピクセル以上スクロールしたら.scrollTopBtnをフェードイン
-      else {$('.scrollTopBtn').fadeOut();}//それ以外は.scrollTopBtnをフェードアウト
+      if( scrolllength >= 100) {
+        $('.scrollTopBtn').fadeIn();//100ピクセル以上スクロールしたら.scrollTopBtnをフェードイン
+      } else {$('.scrollTopBtn').fadeOut();}//それ以外は.scrollTopBtnをフェードアウト
     });
 
     $('.menu__btn').click(function() {//.menu__btnをクリックしたら時のアクション
       var clickedData = $(this).data('scroll-place-type');//クリックしたボタンのデータ属性'scroll-place-type'の値をclickdataに代入
       $('.contents').find('.title').each(function() {//.contentsの小要素.titleのそれぞれにたいして
-        var titledata = $(this).data('scroll-place-type');
-        if (clickedData === titledata){//クリックしたボタンと.titleのデータ属性'scroll-place-type'が等しい場合
+        var titleData = $(this).data('scroll-place-type');
+        if (clickedData === titleData) {//クリックしたボタンと.titleのデータ属性'scroll-place-type'が等しい場合
           $('html, body').animate({scrollTop: $(this).offset().top});//そのtitle要素の位置までスクロール
           return;
         }

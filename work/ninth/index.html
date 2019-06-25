@@ -1,64 +1,64 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <title>jQuery</title>
-    <link rel="stylesheet" href="../../common/css/reset.css">
-    <link rel="stylesheet" href="../../common/css/base.css">
-    <link rel="stylesheet" href="./css/style.css">
-  </head>
-  <body>
-    <div class="wrapper">
-      <ul class="colorList"></ul>
-    </div>
-    <script src="../../common/js/jquery.js"></script>
-    <script>
-    $(function() {
-      // [使うメソッド]
-      // $.each(配列, function functionName() {}) 配列に対しての繰り返し処理
-      // .html() 要素の中に引数を代入する。（まずは.append() でやってみましょう）
-      // $.ajax({}) 外部ファイルやURLに対してデータをリクエストすることができます。これだけだと少しわからないと思うので下に文法を書いておきます。
-      //
-      // [文法]
-        $.ajax({
-          url: './data.json'
-        })
-        .done(function(data) {
-          console.log(data);
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>jQuery</title>
+  <link rel="stylesheet" href="../../common/css/reset.css">
+  <link rel="stylesheet" href="../../common/css/base.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <ul class="colorList"></ul>
+  </div>
+  <script src="../../common/js/jquery.js"></script>
+  <script>
+  $(function() {
+    // [使うメソッド]
+    // $.each(配列, function functionName() {}) 配列に対しての繰り返し処理
+    // .html() 要素の中に引数を代入する。（まずは.append() でやってみましょう）
+    // $.ajax({}) 外部ファイルやURLに対してデータをリクエストすることができます。これだけだと少しわからないと思うので下に文法を書いておきます。
+    //
+    // [文法]
+    // $.ajax({
+    //   url: './data.json'
+    // })
+    // .done(function(data) {
+    //   console.log(data);
+    // });
+    //
+    // 今回の場合は同じ階層にあるdata.jsonに対してリクエストを飛ばして、中にあるオブジェクトを取得します。
+    // そのオブジェクトは
+    // .done(function(data) {
+    //                  ↑
+    //           ここに入ってきます。
+    //
+    // そのため、次の行でconsole.log(data)をすると中身のオブジェクトが確認できます。
+    //
+    // [テンプレート]
+    // <li class="colorList__item">
+    //   <p class="colorList__title" style="background-color: ;"></p>
+    // </li>
+    //
+    // このテンプレートに取得してきた中身を入れて表示します。
+    $.ajax({//ajax開始
+      url: './data.json'//ファイル読み込み
+    })
+    .done(function(data) {//ファイル読み込み完了したら
+      $.each(data.colorsArray, function(index, elem){//dataの中の配列colorsArrayの中身それぞれに対して
+        var $innerItem = $("<p>", {//pタグ生成
+          class: "colorList__title"//クラス追加
         });
-      //
-      // 今回の場合は同じ階層にあるdata.jsonに対してリクエストを飛ばして、中にあるオブジェクトを取得します。
-      // そのオブジェクトは
-      // .done(function(data) {
-      //                  ↑
-      //           ここに入ってきます。
-      //
-      // そのため、次の行でconsole.log(data)をすると中身のオブジェクトが確認できます。
-      //
-      // [テンプレート]
-      // <li class="colorList__item">
-      //   <p class="colorList__title" style="background-color: ;"></p>
-      // </li>
-      //
-      // このテンプレートに取得してきた中身を入れて表示します。
-      $.ajax({//ajax開始
-        url: './data.json'//ファイル読み込み
-      })
-      .done(function(data) {//ファイル読み込み完了したら
-        $.each(data.colorsArray, function(index, elem){//dataの中の配列colorsArrayの中身それぞれに対して
-          var $innerItem = $("<p>", {//pタグ生成
-            class: "colorList__title"//クラス追加
-          });
-          var $outerItem = $("<li>", {//liタグ生成
-            class: "colorList__item"//クラス追加
-          });
-          $innerItem.css('background-color', elem.hexValue).text(elem.colorName).appendTo($outerItem);//innerItemのスタイルbackground-colorに配列要素のhexvalueを設定、テキストは配列要素のcolornameにして、outerItemの小要素として追加。
-          $('.colorList').append($outerItem);//.colorListにouterItemを小要素として追加
+        var $outerItem = $("<li>", {//liタグ生成
+          class: "colorList__item"//クラス追加
         });
+        $innerItem.css('background-color', elem.hexValue).text(elem.colorName).appendTo($outerItem);//innerItemのスタイルbackground-colorに配列要素のhexvalueを設定、テキストは配列要素のcolornameにして、outerItemの小要素として追加。
+        $('.colorList').append($outerItem);//.colorListにouterItemを小要素として追加
       });
     });
-    </script>
-  </body>
+  });
+  </script>
+</body>
 </html>
