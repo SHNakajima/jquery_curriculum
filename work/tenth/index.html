@@ -83,9 +83,10 @@
     function searchBooks() {//楽天ブックス総合検索APIを使用した本検索関数
       var searchText = $('.search__text__input').val();//'.search__text__input'の入力値をsearchtextに取得
       if (prevSearchText !== searchText) {//検索文字列が変化した時
-        $('.lists').children('li').remove();
-        $('.message').remove();
-        prevSearchText = searchText;
+        $('.lists').children('li').remove();//検索結果の要素をhtmlから削除
+        $('.message').remove();//検索結果がない時のメッセージもhtmlから削除
+        prevSearchText = searchText;//前回の検索文字列を現在の検索文字列で上書き
+        getPageNum = 0;//検索ページ数目を初期化
       }
       getPageNum++;//取得するページ数の更新
 
@@ -102,53 +103,35 @@
           page: getPageNum//取得するページ数目
         },
       }).done(function(data) {//データが読み込み終わったら
-        var books = data.Items;//data.Itemsが本の情報のオブジェクトの配列になっているため、それをbooksに代入
-        var hitNum = data.hits;//検索ヒット数の取得
-        if (hitNum === 0) {//検索ヒット数が0だったら
-          if(isThereMessage){return;}//すでにメッセージが表示されているなら何もしないreturn
-          var $messageDiv = $('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>');//こうもかける！
-          $('.search').after($messageDiv);//検索フォームの後にメッセージを挿入
-          isThereMessage = true;//メッセージ挿入したらtrueにする
-        }
-
-        $.each(books, function(index, el) {//本情報のオブジェクトの配列の要素elそれぞれにたいして
-          var item = el.Item;//data.Items.Itemが本の情報なのでそれをitemに格納
-          // ここから-------------------------------------------------------------------------------------------
-          var $img = $('<img>', {
-            class: 'lists__item__img',
-            src: item.largeImageUrl,
-            alt: ''
-          });
-          var $title = $('<p>', {
-            class: 'lists__item__detail',
-            text: '作品名：　' + item.title
-          });
-          var $author = $('<p>', {
-            class: 'lists__item__detail',
-            text: '作者　：　' + item.author
-          });
-          var $publisher = $('<p>', {
-            class: 'lists__item__detail',
-            text: '出版社：　' + item.publisherName
-          });
-          var $a = $('<a>', {
-            class: 'lists__item__link',
-            target: '_blank',
-            href: item.itemUrl
-          });
-          var $div = $('<div>', {
-            class: 'lists__item__inner',
-          });
-          var $li = $('<li>', {
-            class: 'lists__item',
-          });
-          // ここまでタグ作成。各々タグのtext, srcに本情報からデータ取得している------------------------------------------------------
-          $a.append($img).append($title).append($author).append($publisher);//作成したaタグに本1つの情報を順番に格納
-          $div.append($a).appendTo($li);//aを格納したdivをliに格納
-          $('.lists').prepend($li);//新しく取得した本の情報liを前に追加していく
-        });
+        insertBookData(data);//dataの本情報をDOMにしてhtml内に挿入する
+      }).fail(function(data) {
+        alertFailure(data);
       });
     };
+
+    function insertBookData(data) {
+      var books = data.Items;//data.Itemsが本の情報のオブジェクトの配列になっているため、それをbooksに代入
+      var hitNum = data.hits;//検索ヒット数の取得
+      if (hitNum === 0) {//検索ヒット数が0だったら
+        if(isThereMessage){return;}//すでにメッセージが表示されているなら何もしないreturn
+        var $messageDiv = $('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>');//こうもかける！
+        $('.search').after($messageDiv);//検索フォームの後にメッセージを挿入
+        isThereMessage = true;//メッセージ挿入したらtrueにする
+      }
+
+      $.each(books, function(index, el) {//本情報のオブジェクトの配列の要素elそれぞれにたいして
+        var item = el.Item;//data.Items.Itemが本の情報なのでそれをitemに格納
+        var $BookDOM = $("<li class='lists__item'><div class='lists__item__inner'><a href='" + item.itemUrl + "' class='lists__item__link' target='_blank'><img src='" + item.largeImageUrl + "' class='lists__item__img' alt=''><p class='lists__item__detail'>作品名：　" + item.title + "</p><p class='lists__item__detail'>作者　：　" + item.author + "</p><p class='lists__item__detail'>出版社：　" + item.publisherName + "</p></a></div></li>");
+
+        $('.lists').prepend($BookDOM);//新しく取得した本の情報liを前に追加していく
+      });
+    };
+
+    function alertFailure(data) {
+      alert('通信に失敗しました！');
+      console.log(data);
+    };
+
   });
   </script>
 </body>
