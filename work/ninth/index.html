@@ -48,14 +48,8 @@
     })
     .done(function(data) {//ファイル読み込み完了したら
       $.each(data.colorsArray, function(index, elem){//dataの中の配列colorsArrayの中身それぞれに対して
-        var $innerItem = $("<p>", {//pタグ生成
-          class: "colorList__title"//クラス追加
-        });
-        var $outerItem = $("<li>", {//liタグ生成
-          class: "colorList__item"//クラス追加
-        });
-        $innerItem.css('background-color', elem.hexValue).text(elem.colorName).appendTo($outerItem);//innerItemのスタイルbackground-colorに配列要素のhexvalueを設定、テキストは配列要素のcolornameにして、outerItemの小要素として追加。
-        $('.colorList').append($outerItem);//.colorListにouterItemを小要素として追加
+        var $Item = $('<li class="colorList__item"><p class="colorList__title" style="background-color:' + elem.hexValue +  ';">' + elem.colorName + '</p></li>');
+        $('.colorList').append($Item);//.colorListにouterItemを小要素として追加
       });
     });
   });
