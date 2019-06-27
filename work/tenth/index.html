@@ -87,7 +87,7 @@
         $('.message').remove();//検索結果がない時のメッセージもhtmlから削除
         prevSearchText = searchText;//前回の検索文字列を現在の検索文字列で上書き
         getPageNum = 0;//検索ページ数目を初期化
-      }
+      };
       getPageNum++;//取得するページ数の更新
 
       $.ajax({
@@ -117,7 +117,9 @@
         var $messageDiv = $('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>');//こうもかける！
         $('.search').after($messageDiv);//検索フォームの後にメッセージを挿入
         isThereMessage = true;//メッセージ挿入したらtrueにする
-      }
+      } else {
+        isThereMessage = false;
+      };
 
       $.each(books, function(index, el) {//本情報のオブジェクトの配列の要素elそれぞれにたいして
         var item = el.Item;//data.Items.Itemが本の情報なのでそれをitemに格納
@@ -137,7 +139,23 @@
     };
 
     function alertFailure(data) {
-      alert('通信に失敗しました！');
+      var errorText = data.responseJSON.error_description;
+
+      switch (errorText) {
+        case "keyword must be set":
+        errorText = "検索キーワードを入力してください";
+        break;
+        case "keyword length must be over 2 characters":
+        errorText = "検索キーワードは２文字以上入力してください";
+        break;
+        case "number of allowed requests has been exceeded for this API. please try again soon.":
+        errorText = "リクエストが多すぎます。しばらくしてからもう１度お試しください";
+        break;
+        default:
+        break;
+      }
+
+      alert(errorText);
       console.log(data);
     };
 
