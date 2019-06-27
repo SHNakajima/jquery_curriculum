@@ -48,7 +48,9 @@
     })
     .done(function(data) {//ファイル読み込み完了したら
       $.each(data.colorsArray, function(index, elem){//dataの中の配列colorsArrayの中身それぞれに対して
-        var $Item = $('<li class="colorList__item"><p class="colorList__title" style="background-color:' + elem.hexValue +  ';">' + elem.colorName + '</p></li>');
+        var $Item = $('<li class="colorList__item">' +
+                        '<p class="colorList__title" style="background-color:' + elem.hexValue +  ';">' + elem.colorName + '</p> ' +
+                      '</li>');
         $('.colorList').append($Item);//.colorListにouterItemを小要素として追加
       });
     });
