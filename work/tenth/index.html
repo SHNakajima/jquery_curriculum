@@ -87,7 +87,7 @@
         $('.message').remove();//検索結果がない時のメッセージもhtmlから削除
         prevSearchText = searchText;//前回の検索文字列を現在の検索文字列で上書き
         getPageNum = 0;//検索ページ数目を初期化
-      };
+      }
       getPageNum++;//取得するページ数の更新
 
       $.ajax({
@@ -104,7 +104,7 @@
         },
       }).done(function(data) {//データが読み込み終わったら
         insertBookData(data);//dataの本情報をDOMにしてhtml内に挿入する
-      }).fail(function(data) {
+      }).fail(function(data) {//通信失敗した時の処理
         alertFailure(data);
       });
     };
@@ -119,7 +119,9 @@
         isThereMessage = true;//メッセージ挿入したらtrueにする
       } else {
         isThereMessage = false;
-      };
+      }
+
+      var bookTemplates = [];//本のテンプレートを格納していく配列
 
       $.each(books, function(index, el) {//本情報のオブジェクトの配列の要素elそれぞれにたいして
         var item = el.Item;//data.Items.Itemが本の情報なのでそれをitemに格納
@@ -134,29 +136,37 @@
                           "</div>" +
                         "</li>");
 
-        $('.lists').prepend($BookDOM);//新しく取得した本の情報liを前に追加していく
+        bookTemplates.push($BookDOM);//配列の先頭にテンプレートを追加していく
       });
+      while (bookTemplates.length !== 0) {//本のテンプレートを格納していく配列が空になるまで
+        $('.lists').prepend(bookTemplates.pop());//本のテンプレートを格納していく配列の先頭からテンプレートを取り出し.listsの中の前に追加していく
+      };
     };
 
-    function alertFailure(data) {
-      var errorText = data.responseJSON.error_description;
-
-      switch (errorText) {
-        case "keyword must be set":
-        errorText = "検索キーワードを入力してください";
-        break;
-        case "keyword length must be over 2 characters":
-        errorText = "検索キーワードは２文字以上入力してください";
-        break;
-        case "number of allowed requests has been exceeded for this API. please try again soon.":
-        errorText = "リクエストが多すぎます。しばらくしてからもう１度お試しください";
-        break;
-        default:
-        break;
+    function alertFailure(data) {//通信失敗した時の処理
+      var errorText = data.statusText;//ネットワークに繋がっていない場合data.statusTextにerrorが入ってくるのでその際はアラートを出す
+      if(errorText === 'error') {//data.statusTextにerrorが入ってきた場合
+        alert("ネットワークに接続してください");//アラート出力
+        return;//以下のapiからのエラー処理を行う必要はないのでreturn
       }
 
-      alert(errorText);
-      console.log(data);
+      errorText = data.responseJSON.error_description;//apiから帰ってきた英語のエラーメッセージをerrorTextに格納
+
+      switch (errorText) {//英語を日本語に変換するswitch文
+        case "keyword must be set":
+          errorText = "検索キーワードを入力してください";
+          break;
+        case "keyword length must be over 2 characters":
+          errorText = "検索キーワードは２文字以上入力してください";
+          break;
+        case "number of allowed requests has been exceeded for this API. please try again soon.":
+          errorText = "リクエストが多すぎます。しばらくしてからもう１度お試しください";
+          break;
+        default://上で指定していない文章以外は
+          break;//英語のままにする
+      }
+
+      alert(errorText);//アラート出力
     };
 
   });
