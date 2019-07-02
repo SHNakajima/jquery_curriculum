@@ -121,11 +121,11 @@
         isThereMessage = false;
       }
 
-      var $bookTemplates;//本のテンプレートを格納していく
+      var $bookTemplates = "";//本のテンプレートを格納していく
 
       $.each(books, function(index, el) {//本情報のオブジェクトの配列の要素elそれぞれにたいして
         var item = el.Item;//data.Items.Itemが本の情報なのでそれをitemに格納
-        $bookTemplates += $("<li class='lists__item'>" +
+        $bookTemplates += "<li class='lists__item'>" +
                           "<div class='lists__item__inner'>" +
                             "<a href='" + item.itemUrl + "' class='lists__item__link' target='_blank'>" +
                                 "<img src='" + item.largeImageUrl + "' class='lists__item__img' alt=''>" +
@@ -134,15 +134,9 @@
                                 "<p class='lists__item__detail'>出版社：　" + item.publisherName + "</p>" +
                             "</a>" +
                           "</div>" +
-                        "</li>");
-
-        // $bookTemplates.push( $BookDOM);//配列の先頭にテンプレートを追加していく
+                        "</li>";
       });
-      // while ($bookTemplates.length !== 0) {//本のテンプレートを格納していく配列が空になるまで
-      //   $('.lists').prepend($bookTemplates.pop());//本のテンプレートを格納していく配列の先頭からテンプレートを取り出し.listsの中の前に追加していく
-      // };
-      console.log($bookTemplates);
-      $('.lists').prepend($bookTemplates);
+      $('.lists').prepend($bookTemplates);//全ての本データを処理した後に.listの中の前に本のテンプレートをまとめて追加
     };
 
     function alertFailure(data) {//通信失敗した時の処理
